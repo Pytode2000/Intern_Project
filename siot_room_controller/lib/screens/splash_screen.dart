@@ -25,7 +25,7 @@ class SplashScreen extends StatelessWidget {
                 fontSize: 42,
               ),
               beginColor: Theme.of(context).primaryColor,
-              endColor: Colors.green,
+              endColor: Colors.black,
               duration: Duration(milliseconds: 2000),
             ),
           ),

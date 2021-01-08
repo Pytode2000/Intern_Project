@@ -5,8 +5,9 @@ class HomeRoom extends StatelessWidget {
 
   final String assetImagePath;
   final String overlayText;
+  final String route;
 
-  HomeRoom(this.assetImagePath, this.overlayText);
+  HomeRoom(this.assetImagePath, this.overlayText, this.route);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,9 @@ class HomeRoom extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed(route);
+              },
             ),
           ),
         ],

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'screens/splash_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/the_big_place_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/' : (ctx) => SplashScreen(),
         HomeScreen.routeName : (ctx) => HomeScreen(),
+        TheBigPlaceScreen.routeName : (ctx) => TheBigPlaceScreen(),
       },
     );
   }

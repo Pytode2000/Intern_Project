@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:blinking_text/blinking_text.dart';
 
 import '../widgets/home_room.dart';
 
@@ -16,7 +15,6 @@ class HomeScreen extends StatelessWidget {
           icon: Icon(
             Icons.power_settings_new,
             color: Colors.white,
-            size: 40,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -25,22 +23,34 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w900, fontSize: 24),
         ),
       ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: Scrollbar(
-          isAlwaysShown: true,
-          controller: _controllerOne,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            controller: _controllerOne,
-            children: <Widget>[
-              HomeRoom("assets/images/the_big_place.png", "The Big Place"),
-              HomeRoom("assets/images/open_place.png", "Open Place"),
-              HomeRoom("assets/images/townhall.png", "Townhall"),
-            ],
+      body: Stack(
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: Scrollbar(
+              isAlwaysShown: true,
+              controller: _controllerOne,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                controller: _controllerOne,
+                children: <Widget>[
+                  HomeRoom("assets/images/the_big_place.png", "The Big Place", "/the-big-place"),
+                  HomeRoom("assets/images/open_place.png", "Open Place", "/the-big-place"),
+                  HomeRoom("assets/images/townhall.png", "Townhall", "/the-big-place"),
+                ],
+              ),
+            ),
           ),
-        ),
+          Align(
+            alignment: FractionalOffset.centerRight,
+            child: Icon(
+              Icons.double_arrow_sharp,
+              color: Colors.blueGrey,
+              size: 100.0,
+            ),
+          )
+        ],
       ),
     );
   }
