@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:blinking_text/blinking_text.dart';
+
+import '../widgets/home_room.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = '/home';
+
+  final ScrollController _controllerOne = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +28,19 @@ class HomeScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Colors.red,
-        child: ListView(scrollDirection: Axis.horizontal, children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width * 0.40,
-            color: Colors.red,
+        child: Scrollbar(
+          isAlwaysShown: true,
+          controller: _controllerOne,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            controller: _controllerOne,
+            children: <Widget>[
+              HomeRoom("assets/images/the_big_place.png", "The Big Place"),
+              HomeRoom("assets/images/open_place.png", "Open Place"),
+              HomeRoom("assets/images/townhall.png", "Townhall"),
+            ],
           ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.40,
-            color: Colors.blue,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.40,
-            color: Colors.green,
-          ),
-        ]),
+        ),
       ),
     );
   }

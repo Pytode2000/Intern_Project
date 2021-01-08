@@ -35,6 +35,7 @@ class SplashScreen extends StatelessWidget {
           child: InkWell(
             onTap: () {
               Navigator.of(context).pushNamed("/home");
+              // Can add additional stuff here, such as switching on the hardware.
             },
           ),
         ),

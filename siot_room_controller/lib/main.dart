@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Lato',
         primaryColor: Color(0xff007C89),
+        highlightColor: Color(0xFF02616B), // Color for Scrollbar.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: '/',
