@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../widgets/draggable_widget.dart';
+import 'package:blinking_text/blinking_text.dart';
 
 class TheBigPlaceScreen extends StatefulWidget {
   static const routeName = "/the-big-place";
@@ -13,49 +15,164 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
   bool projectorTwo = true;
   bool projectorThree = false;
 
+  String testing = "test";
+  String droppedSource = "";
+
+  void refresh() {
+    setState(() {});
+  }
+
+  Widget buildDragTarget() {
+    return DragTarget(
+      builder: (BuildContext bc, List<String> incoming, List rejected) {
+        // if (data == "Test") {
+        //   return Container(
+        //     child: Text("Test1"),
+        //   );
+        // } else {
+        //   return Container(
+        //     child: Text("Test2"),
+        //   );
+        // }
+        if (droppedSource == "") {
+          return Container(
+            child: projectorOne == false
+                ? Text(
+                    "Projector 1 is switched off",
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  )
+                : Text(
+                    "Select a Source",
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
+          );
+        } else if (droppedSource == "off") {
+          return Container(
+            child: BlinkText(
+              "Projector 1 is switched off",
+              style: TextStyle(
+                fontSize: 24,
+              ),
+              beginColor: Colors.black,
+              endColor: Colors.red,
+              times: 2,
+              duration: Duration(milliseconds: 1000),
+            ),
+          );
+        } else {
+          return Container(
+            child: Text("Testing2"),
+            height: 50,
+            color: Colors.red,
+          );
+        }
+      },
+      onWillAccept: (data) => true,
+      onAccept: (data) {
+        if (projectorOne == false) {
+          setState(() {
+            droppedSource = "off";
+            print("Projector off");
+          });
+        } else {
+          if (data == "test") {
+            setState(() {
+              droppedSource = "placed";
+              print("Updated");
+            });
+          } else {
+            droppedSource = "wrong";
+            // print("no Updated");
+            print("$droppedSource LOL");
+          }
+        }
+      },
+    );
+  }
+
   Widget middleContent() {
     if (selectedLayout == 0) {
       return SizedBox(
         height: MediaQuery.of(context).size.height * 0.60,
       );
     } else {
-      return SizedBox(
+      return Container(
         height: MediaQuery.of(context).size.height * 0.60,
+        // margin: EdgeInsets.only(
+        //   top: MediaQuery.of(context).size.height * 0.01,
+        //   bottom: MediaQuery.of(context).size.height * 0.01,
+        // ),
         child: Column(
           children: [
             Row(
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.1666,
-                  color: Colors.red,
-                  height: MediaQuery.of(context).size.height * 0.10,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.1666,
-                  color: Colors.orange,
-                  height: MediaQuery.of(context).size.height * 0.10,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.1666,
-                  color: Colors.yellow,
-                  height: MediaQuery.of(context).size.height * 0.10,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.1666,
-                  color: Colors.green,
-                  height: MediaQuery.of(context).size.height * 0.10,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.1666,
-                  color: Colors.blue,
-                  height: MediaQuery.of(context).size.height * 0.10,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.1666,
-                  color: Colors.purple,
-                  height: MediaQuery.of(context).size.height * 0.10,
+                  child: Draggable<String>(
+                    data: "test",
+                    child: DraggableWidget(0x80000000),
+                    feedback: DraggableWidget(0x80007C89),
+                    childWhenDragging: DraggableWidget(0x80000000),
+                  ),
                 ),
               ],
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.45,
+              margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.025,
+                bottom: MediaQuery.of(context).size.height * 0.025,
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.3333,
+                    color: Color(0xE6D9D9D9),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.35,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: buildDragTarget(),
+                                ),
+                              ),
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Screen 1",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 32,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            child: Icon(
+                              Icons.volume_off,
+                              size: 75,
+                              // color: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             )
           ],
         ),
@@ -124,15 +241,15 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
           style: TextStyle(fontWeight: FontWeight.w900, fontSize: 24),
         ),
         actions: [
+          // Settings
           IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {
-                // Show sheet here
                 showModalBottomSheet<void>(
                     context: context,
                     builder: (BuildContext context) {
-                      return StatefulBuilder(builder: (BuildContext context,
-                          StateSetter setState /*You can rename this!*/) {
+                      return StatefulBuilder(builder:
+                          (BuildContext context, StateSetter setState) {
                         return new Container(
                           height: MediaQuery.of(context).size.height * 0.40,
                           width: double.infinity,
@@ -147,6 +264,8 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                                     } else {
                                       projectorOne = true;
                                     }
+                                    refresh();
+                                    droppedSource = "";
                                   });
                                 },
                                 child: projectorWidget(
@@ -160,6 +279,7 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                                     } else {
                                       projectorTwo = true;
                                     }
+                                    refresh();
                                   });
                                 },
                                 child: projectorWidget(
@@ -173,6 +293,7 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                                     } else {
                                       projectorThree = true;
                                     }
+                                    refresh();
                                   });
                                 },
                                 child: projectorWidget(
@@ -200,6 +321,7 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
         child: Column(
           children: [
             Container(
+              // Heading
               color: selectedLayout == 0
                   ? Color(0xB3000000)
                   : Color(
@@ -219,11 +341,9 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                 ),
               ),
             ),
-
-            // Widget
-            middleContent(),
-
+            middleContent(), // TO BE CONT.
             Expanded(
+              // Bottom Tab
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.15,
                 child: Row(
