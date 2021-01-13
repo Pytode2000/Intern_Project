@@ -11,90 +11,171 @@ class TheBigPlaceScreen extends StatefulWidget {
 
 class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
   int selectedLayout = 0;
-  bool projectorOne = false;
-  bool projectorTwo = true;
-  bool projectorThree = false;
 
-  String testing = "test";
-  String droppedSource = "";
+  bool projectorOne = false;
+  String projectorOneSource = "";
+  double projectorOneVolume = 50;
+
+  bool projectorTwo = true;
+  String projectorTwoSource = "";
+  double projectorTwoVolume = 50;
+
+  bool projectorThree = true;
+  String projectorThreeSource = "";
+  double projectorThreeVolume = 50;
 
   void refresh() {
     setState(() {});
   }
 
-  Widget buildDragTarget() {
+  Widget buildDragTarget(screen) {
     return DragTarget(
       builder: (BuildContext bc, List<String> incoming, List rejected) {
-        // if (data == "Test") {
-        //   return Container(
-        //     child: Text("Test1"),
-        //   );
-        // } else {
-        //   return Container(
-        //     child: Text("Test2"),
-        //   );
-        // }
-        if (droppedSource == "") {
+        String projectorSource;
+        String projectorNumber;
+        bool projector;
+
+        if (screen == 1) {
+          projectorSource = projectorOneSource;
+          projectorNumber = "Projector 1";
+          projector = projectorOne;
+        } else if (screen == 2) {
+          projectorSource = projectorTwoSource;
+          projectorNumber = "Projector 2";
+          projector = projectorTwo;
+        } else if (screen == 3) {
+          projectorSource = projectorThreeSource;
+          projectorNumber = "Projector 3";
+          projector = projectorThree;
+        }
+
+        if (projectorSource == "") {
           return Container(
-            child: projectorOne == false
-                ? Text(
-                    "Projector 1 is switched off",
-                    style: TextStyle(
-                      fontSize: 24,
+            height: MediaQuery.of(context).size.height * 0.40,
+            child: Center(
+              child: projector == false
+                  ? Text(
+                      "$projectorNumber is switched off",
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    )
+                  : Text(
+                      "Select a Source",
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
                     ),
-                  )
-                : Text(
-                    "Select a Source",
-                    style: TextStyle(
-                      fontSize: 24,
-                    ),
-                  ),
+            ),
           );
-        } else if (droppedSource == "off") {
+        } else if (projectorSource == "off") {
           return Container(
-            child: BlinkText(
-              "Projector 1 is switched off",
-              style: TextStyle(
-                fontSize: 24,
+            height: MediaQuery.of(context).size.height * 0.40,
+            child: Center(
+              child: BlinkText(
+                "$projectorNumber is switched off",
+                style: TextStyle(
+                  fontSize: 24,
+                ),
+                beginColor: Colors.black,
+                endColor: Colors.red,
+                times: 2,
+                duration: Duration(milliseconds: 500),
               ),
-              beginColor: Colors.black,
-              endColor: Colors.red,
-              times: 2,
-              duration: Duration(milliseconds: 1000),
             ),
           );
         } else {
           return Container(
-            child: Text("Testing2"),
-            height: 50,
-            color: Colors.red,
+            height: MediaQuery.of(context).size.height * 0.40,
+            child: Stack(children: [
+              Center(
+                child: Icon(
+                  Icons.laptop,
+                  size: 200,
+                  color: Colors.green,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  right: 12,
+                  top: 12,
+                ),
+                child: Align(
+                  alignment: FractionalOffset.topRight,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.close,
+                      size: 40,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        projectorOneSource = "";
+                      });
+                    },
+                  ),
+                ),
+              ),
+              Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: double.infinity,
+                  color: Color(0x80000000),
+                  child: Center(
+                    child: Text(
+                      "HDMI 1",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ]),
           );
         }
       },
       onWillAccept: (data) => true,
       onAccept: (data) {
-        if (projectorOne == false) {
-          setState(() {
-            droppedSource = "off";
-            print("Projector off");
-          });
-        } else {
-          if (data == "test") {
+        // TO BE CONT
+        if (screen == 1) {
+          if (projectorOne == false) {
             setState(() {
-              droppedSource = "placed";
-              print("Updated");
+              projectorOneSource = "off";
+              print("Projector off");
             });
           } else {
-            droppedSource = "wrong";
-            // print("no Updated");
-            print("$droppedSource LOL");
+            if (data == "test") {
+              setState(() {
+                projectorOneSource = "placed";
+                print("Updated");
+              });
+            } else {
+              projectorOneSource = "wrong";
+              // print("no Updated");
+              print("$projectorOneSource LOL");
+            }
           }
-        }
+        } else if (screen == 2) {}
       },
     );
   }
 
   Widget middleContent() {
+    double screenSize;
+    double screenMargins;
+    if (selectedLayout == 1) {
+      screenSize = 0.80;
+      screenMargins = 0.1;
+    } else if (selectedLayout == 2) {
+      screenSize = 0.45;
+      screenMargins = 0.05;
+    } else if (selectedLayout == 3) {
+      screenSize = 0.3331;
+      screenMargins = 0.025;
+    }
     if (selectedLayout == 0) {
       return SizedBox(
         height: MediaQuery.of(context).size.height * 0.60,
@@ -102,20 +183,55 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
     } else {
       return Container(
         height: MediaQuery.of(context).size.height * 0.60,
-        // margin: EdgeInsets.only(
-        //   top: MediaQuery.of(context).size.height * 0.01,
-        //   bottom: MediaQuery.of(context).size.height * 0.01,
-        // ),
+        margin: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height * 0.005,
+        ),
         child: Column(
           children: [
             Row(
               children: [
                 Container(
                   child: Draggable<String>(
-                    data: "test",
-                    child: DraggableWidget(0x80000000),
-                    feedback: DraggableWidget(0x80007C89),
-                    childWhenDragging: DraggableWidget(0x80000000),
+                    data: "HDMI 1",
+                    child: DraggableWidget(0x80000000, "HDMI 1"),
+                    feedback: DraggableWidget(0x80007C89, "HDMI 1"),
+                    childWhenDragging: DraggableWidget(0x80000000, "HDMI 1"),
+                  ),
+                ),
+                Container(
+                  child: Draggable<String>(
+                    data: "HDMI 2",
+                    child: DraggableWidget(0x80000000, "HDMI 2"),
+                    feedback: DraggableWidget(0x80007C89, "HDMI 2"),
+                    childWhenDragging: DraggableWidget(0x80000000, "HDMI 2"),
+                  ),
+                ),                Container(
+                  child: Draggable<String>(
+                    data: "HDMI 3",
+                    child: DraggableWidget(0x80000000, "HDMI 3"),
+                    feedback: DraggableWidget(0x80007C89, "HDMI 3"),
+                    childWhenDragging: DraggableWidget(0x80000000, "HDMI 3"),
+                  ),
+                ),                Container(
+                  child: Draggable<String>(
+                    data: "HDMI 4",
+                    child: DraggableWidget(0x80000000, "HDMI 4"),
+                    feedback: DraggableWidget(0x80007C89, "HDMI 4"),
+                    childWhenDragging: DraggableWidget(0x80000000, "HDMI 4"),
+                  ),
+                ),                Container(
+                  child: Draggable<String>(
+                    data: "TV Tuner",
+                    child: DraggableWidget(0x80000000, "TV Tuner"),
+                    feedback: DraggableWidget(0x80007C89, "TV Tuner"),
+                    childWhenDragging: DraggableWidget(0x80000000, "TV Tuner"),
+                  ),
+                ),                Container(
+                  child: Draggable<String>(
+                    data: "Wireless",
+                    child: DraggableWidget(0x80000000, "Wireless"),
+                    feedback: DraggableWidget(0x80007C89, "Wireless"),
+                    childWhenDragging: DraggableWidget(0x80000000, "Wireless"),
                   ),
                 ),
               ],
@@ -125,11 +241,13 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
               margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.025,
                 bottom: MediaQuery.of(context).size.height * 0.025,
+                left: MediaQuery.of(context).size.width * screenMargins,
+                right: MediaQuery.of(context).size.width * screenMargins,
               ),
               child: Row(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.3333,
+                    width: MediaQuery.of(context).size.width * screenSize,
                     color: Color(0xE6D9D9D9),
                     child: Center(
                       child: Column(
@@ -138,10 +256,10 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                             children: [
                               Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.35,
+                                    MediaQuery.of(context).size.height * 0.40,
                                 child: Align(
                                   alignment: Alignment.center,
-                                  child: buildDragTarget(),
+                                  child: buildDragTarget(1),
                                 ),
                               ),
                               Container(
@@ -159,13 +277,74 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                             ],
                           ),
                           Container(
+                            height: MediaQuery.of(context).size.height * 0.05,
                             alignment: Alignment.center,
-                            height: MediaQuery.of(context).size.height * 0.1,
-                            child: Icon(
-                              Icons.volume_off,
-                              size: 75,
-                              // color: Colors.green,
-                            ),
+                            child: projectorOne == false ||
+                                    projectorOneSource == ""
+                                ? Icon(
+                                    Icons.volume_off,
+                                    size: 40,
+                                    color: Colors.redAccent,
+                                  )
+                                : Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            if (projectorOneVolume >= 10) {
+                                              projectorOneVolume -= 10;
+                                            }
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.volume_down,
+                                          size: 40,
+                                        ),
+                                      ),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                    screenSize -
+                                                80,
+                                        child: SliderTheme(
+                                          data: SliderThemeData(
+                                            trackHeight: 10,
+                                            // inactiveTrackColor: Colors.grey,
+                                            activeTrackColor:
+                                                Theme.of(context).primaryColor,
+                                            // TO BE CONT
+                                          ),
+                                          child: Slider(
+                                            value: projectorOneVolume,
+                                            min: 0,
+                                            max: 100,
+                                            divisions: 10,
+                                            label: projectorOneVolume
+                                                .round()
+                                                .toString(),
+                                            onChanged: (double value) {
+                                              setState(() {
+                                                projectorOneVolume = value;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            if (projectorOneVolume <= 90) {
+                                              projectorOneVolume += 10;
+                                            }
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.volume_up,
+                                          size: 40,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                           ),
                         ],
                       ),
@@ -265,7 +444,7 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                                       projectorOne = true;
                                     }
                                     refresh();
-                                    droppedSource = "";
+                                    projectorOneSource = "";
                                   });
                                 },
                                 child: projectorWidget(
@@ -280,6 +459,7 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                                       projectorTwo = true;
                                     }
                                     refresh();
+                                    projectorTwoSource = "";
                                   });
                                 },
                                 child: projectorWidget(
@@ -294,6 +474,7 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                                       projectorThree = true;
                                     }
                                     refresh();
+                                    projectorThreeSource = "";
                                   });
                                 },
                                 child: projectorWidget(

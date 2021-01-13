@@ -2,16 +2,28 @@ import 'package:flutter/material.dart';
 
 class DraggableWidget extends StatelessWidget {
   final int colour;
-  DraggableWidget(this.colour);
+  final String content;
+  DraggableWidget(this.colour, this.content);
 
   @override
   Widget build(BuildContext context) {
+    IconData icon;
+    if (content == "TV Tuner") {
+      // icon = Icons.rad;
+    } else if (content == "Wireless") {
+      // icon = ;
+    } else {
+      icon = Icons.laptop;
+    }
     return Material(
       color: Colors.transparent,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.10,
-        height: MediaQuery.of(context).size.height * 0.10,
-
+        height: MediaQuery.of(context).size.height * 0.095,
+        margin: EdgeInsets.only(
+          left: MediaQuery.of(context).size.width * 0.03333,
+          right: MediaQuery.of(context).size.width * 0.03333,
+        ),
         // color: Colors.blue,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
@@ -21,7 +33,7 @@ class DraggableWidget extends StatelessWidget {
           Container(
             alignment: Alignment.center,
             child: Icon(
-              Icons.laptop,
+              icon,
               size: 75,
               color: Colors.green,
             ),
@@ -39,7 +51,7 @@ class DraggableWidget extends StatelessWidget {
                   )),
               child: Center(
                 child: Text(
-                  "HDMI 1",
+                  "$content",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
