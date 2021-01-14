@@ -670,18 +670,42 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                     GestureDetector(
                       onTap: () => setState(() {
                         selectedLayout = 1;
+                        if(projectorOneSource == "off")
+                          {
+                            projectorOneSource = "";
+                          }
                       }),
                       child: layoutWidget(1, "assets/images/layout_one.png"),
                     ),
                     GestureDetector(
                       onTap: () => setState(() {
                         selectedLayout = 2;
+                        if(projectorOneSource == "off")
+                        {
+                          projectorOneSource = "";
+                        }
+                        if(projectorTwoSource == "off")
+                        {
+                          projectorTwoSource = "";
+                        }
                       }),
                       child: layoutWidget(2, "assets/images/layout_two.png"),
                     ),
                     GestureDetector(
                       onTap: () => setState(() {
                         selectedLayout = 3;
+                        if(projectorOneSource == "off")
+                        {
+                          projectorOneSource = "";
+                        }
+                        if(projectorTwoSource == "off")
+                        {
+                          projectorTwoSource = "";
+                        }
+                        if(projectorThreeSource == "off")
+                        {
+                          projectorThreeSource = "";
+                        }
                       }),
                       child: layoutWidget(3, "assets/images/layout_three.png"),
                     ),
