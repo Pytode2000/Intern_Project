@@ -7,13 +7,13 @@ class DraggableWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    IconData icon;
+    String imagePath;
     if (content == "TV Tuner") {
-      // icon = Icons.rad;
+      imagePath = "assets/images/tv_tuner.png";
     } else if (content == "Wireless") {
-      // icon = ;
+      imagePath = "assets/images/wireless.png";
     } else {
-      icon = Icons.laptop;
+      imagePath = "assets/images/laptop.png";
     }
     return Material(
       color: Colors.transparent,
@@ -32,10 +32,12 @@ class DraggableWidget extends StatelessWidget {
         child: Stack(children: [
           Container(
             alignment: Alignment.center,
-            child: Icon(
-              icon,
-              size: 75,
-              color: Colors.green,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Align(

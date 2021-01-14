@@ -54,6 +54,14 @@ flutter:
     - assets/images/the_big_place.png
     - assets/images/open_place.png
     - assets/images/townhall.png
+    - assets/images/layout_one.png
+    - assets/images/layout_two.png
+    - assets/images/layout_three.png
+    - assets/images/laptop.png
+    - assets/images/wireless.png
+    - assets/images/tv_tuner.png
+
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

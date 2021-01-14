@@ -18,17 +18,212 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
 
   bool projectorTwo = true;
   String projectorTwoSource = "";
-  double projectorTwoVolume = 50;
+  double projectorTwoVolume = 70;
 
   bool projectorThree = true;
   String projectorThreeSource = "";
-  double projectorThreeVolume = 50;
+  double projectorThreeVolume = 20;
+
+  String screenOneText = "";
+  String screenTwoText = "";
+  String screenThreeText = "";
 
   void refresh() {
     setState(() {});
   }
 
+  Widget screen(screenNum, screenSize, screenMargin) {
+    double projectorVolume;
+    bool projectorState;
+    String projectorSource;
+    if (screenNum == 1) {
+      projectorState = projectorOne;
+      projectorSource = projectorOneSource;
+      projectorVolume = projectorOneVolume;
+    } else if (screenNum == 2) {
+      projectorState = projectorTwo;
+      projectorSource = projectorTwoSource;
+      projectorVolume = projectorTwoVolume;
+    } else if (screenNum == 3) {
+      projectorState = projectorThree;
+      projectorSource = projectorThreeSource;
+      projectorVolume = projectorThreeVolume;
+    }
+
+    return Container(
+      width: MediaQuery.of(context).size.width * screenSize,
+      color: Color(0xE6D9D9D9),
+      child: Center(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.40,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: buildDragTarget(screenNum),
+                  ),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Screen $screenNum",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 32,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.05,
+              alignment: Alignment.center,
+              child: projectorState == false || projectorSource == ""
+                  ? Icon(
+                      Icons.volume_off,
+                      size: 40,
+                      color: Colors.redAccent,
+                    )
+                  : Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (screenNum == 1) {
+                                if (projectorOneVolume >= 10) {
+                                  projectorOneVolume -= 10;
+                                }
+                              } else if (screenNum == 2) {
+                                if (projectorTwoVolume >= 10) {
+                                  projectorTwoVolume -= 10;
+                                }
+                              } else if (screenNum == 3) {
+                                if (projectorThreeVolume >= 10) {
+                                  projectorThreeVolume -= 10;
+                                }
+                              }
+                            });
+                          },
+                          child: Icon(
+                            Icons.volume_down,
+                            size: 40,
+                          ),
+                        ),
+                        Container(
+                          width:
+                              MediaQuery.of(context).size.width * screenSize -
+                                  80,
+                          child: SliderTheme(
+                            data: SliderThemeData(
+                              trackHeight: 10,
+                              activeTrackColor: Theme.of(context).primaryColor,
+                            ),
+                            child: Slider(
+                              value: projectorVolume,
+                              min: 0,
+                              max: 100,
+                              divisions: 10,
+                              label: projectorVolume.round().toString(),
+                              onChanged: (double value) {
+                                setState(() {
+                                  if (screenNum == 1) {
+                                    projectorOneVolume = value;
+                                  }
+                                  if (screenNum == 2) {
+                                    projectorTwoVolume = value;
+                                  }
+                                  if (screenNum == 3) {
+                                    projectorThreeVolume = value;
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (screenNum == 1) {
+                                if (projectorOneVolume <= 90) {
+                                  projectorOneVolume += 10;
+                                }
+                              } else if (screenNum == 2) {
+                                if (projectorTwoVolume <= 90) {
+                                  projectorTwoVolume += 10;
+                                }
+                              } else if (screenNum == 3) {
+                                if (projectorThreeVolume <= 90) {
+                                  projectorThreeVolume += 10;
+                                }
+                              }
+                            });
+                          },
+                          child: Icon(
+                            Icons.volume_up,
+                            size: 40,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget returnScreens(screenSize, screenMargin) {
+    if (selectedLayout == 1) {
+      return screen(1, screenSize, screenMargin);
+    } else if (selectedLayout == 2) {
+      return Row(
+        children: [
+          screen(1, screenSize, screenMargin),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.05,
+          ),
+          screen(2, screenSize, screenMargin),
+        ],
+      );
+    } else if (selectedLayout == 3) {
+      return Row(
+        children: [
+          screen(1, screenSize, screenMargin),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.025,
+          ),
+          screen(2, screenSize, screenMargin),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.025,
+          ),
+          screen(3, screenSize, screenMargin),
+        ],
+      );
+    }
+  }
+
   Widget buildDragTarget(screen) {
+    String screenText;
+    String imagePath;
+    if (screen == 1) {
+      screenText = screenOneText;
+    } else if (screen == 2) {
+      screenText = screenTwoText;
+    } else {
+      screenText = screenThreeText;
+    }
+
+    if (screenText.contains("HDMI")) {
+      imagePath = "assets/images/laptop.png";
+    } else if (screenText.contains("TV")) {
+      imagePath = "assets/images/tv_tuner.png";
+    } else {
+      imagePath = "assets/images/wireless.png";
+    }
+
     return DragTarget(
       builder: (BuildContext bc, List<String> incoming, List rejected) {
         String projectorSource;
@@ -88,11 +283,13 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
           return Container(
             height: MediaQuery.of(context).size.height * 0.40,
             child: Stack(children: [
-              Center(
-                child: Icon(
-                  Icons.laptop,
-                  size: 200,
-                  color: Colors.green,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  image: DecorationImage(
+                    image: AssetImage(imagePath),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Container(
@@ -109,7 +306,13 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                     ),
                     onPressed: () {
                       setState(() {
-                        projectorOneSource = "";
+                        if (screen == 1) {
+                          projectorOneSource = "";
+                        } else if (screen == 2) {
+                          projectorTwoSource = "";
+                        } else if (screen == 3) {
+                          projectorThreeSource = "";
+                        }
                       });
                     },
                   ),
@@ -123,7 +326,7 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                   color: Color(0x80000000),
                   child: Center(
                     child: Text(
-                      "HDMI 1",
+                      screenText,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -139,7 +342,6 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
       },
       onWillAccept: (data) => true,
       onAccept: (data) {
-        // TO BE CONT
         if (screen == 1) {
           if (projectorOne == false) {
             setState(() {
@@ -147,34 +349,74 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
               print("Projector off");
             });
           } else {
-            if (data == "test") {
+            setState(() {
               setState(() {
                 projectorOneSource = "placed";
-                print("Updated");
+                screenOneText = "$data";
               });
-            } else {
-              projectorOneSource = "wrong";
-              // print("no Updated");
-              print("$projectorOneSource LOL");
-            }
+            });
+            // Projector is open.
+            // if (data == "HDMI 1") {
+            //   setState(() {
+            //     projectorOneSource = "placed";
+            //     print("Updated");
+            //   });
+            // } else {
+            //   setState(() {
+            //     projectorOneSource = "wrong";
+            //     // print("no Updated");
+            //     print("$projectorOneSource LOL");
+            //   });
+            // }
           }
-        } else if (screen == 2) {}
+          // setState(() {
+          //   screenOneText = "$data";
+          // });
+        } else if (screen == 2) {
+          if (projectorTwo == false) {
+            setState(() {
+              projectorTwoSource = "off";
+              // print("Projector off");
+            });
+          } else {
+            setState(() {
+              setState(() {
+                projectorTwoSource = "placed";
+                screenTwoText = "$data";
+              });
+            });
+          }
+        } else if (screen == 3) {
+          if (projectorThree == false) {
+            setState(() {
+              projectorThreeSource = "off";
+              // print("Projector off");
+            });
+          } else {
+            setState(() {
+              setState(() {
+                projectorThreeSource = "placed";
+                screenThreeText = "$data";
+              });
+            });
+          }
+        }
       },
     );
   }
 
   Widget middleContent() {
     double screenSize;
-    double screenMargins;
+    double screenMargin;
     if (selectedLayout == 1) {
-      screenSize = 0.80;
-      screenMargins = 0.1;
+      screenSize = 0.70;
+      screenMargin = 0.15;
     } else if (selectedLayout == 2) {
-      screenSize = 0.45;
-      screenMargins = 0.05;
+      screenSize = 0.425;
+      screenMargin = 0.05;
     } else if (selectedLayout == 3) {
-      screenSize = 0.3331;
-      screenMargins = 0.025;
+      screenSize = 0.30;
+      screenMargin = 0.025;
     }
     if (selectedLayout == 0) {
       return SizedBox(
@@ -182,7 +424,7 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
       );
     } else {
       return Container(
-        height: MediaQuery.of(context).size.height * 0.60,
+        height: MediaQuery.of(context).size.height * 0.595,
         margin: EdgeInsets.only(
           top: MediaQuery.of(context).size.height * 0.005,
         ),
@@ -205,28 +447,32 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                     feedback: DraggableWidget(0x80007C89, "HDMI 2"),
                     childWhenDragging: DraggableWidget(0x80000000, "HDMI 2"),
                   ),
-                ),                Container(
+                ),
+                Container(
                   child: Draggable<String>(
                     data: "HDMI 3",
                     child: DraggableWidget(0x80000000, "HDMI 3"),
                     feedback: DraggableWidget(0x80007C89, "HDMI 3"),
                     childWhenDragging: DraggableWidget(0x80000000, "HDMI 3"),
                   ),
-                ),                Container(
+                ),
+                Container(
                   child: Draggable<String>(
                     data: "HDMI 4",
                     child: DraggableWidget(0x80000000, "HDMI 4"),
                     feedback: DraggableWidget(0x80007C89, "HDMI 4"),
                     childWhenDragging: DraggableWidget(0x80000000, "HDMI 4"),
                   ),
-                ),                Container(
+                ),
+                Container(
                   child: Draggable<String>(
                     data: "TV Tuner",
                     child: DraggableWidget(0x80000000, "TV Tuner"),
                     feedback: DraggableWidget(0x80007C89, "TV Tuner"),
                     childWhenDragging: DraggableWidget(0x80000000, "TV Tuner"),
                   ),
-                ),                Container(
+                ),
+                Container(
                   child: Draggable<String>(
                     data: "Wireless",
                     child: DraggableWidget(0x80000000, "Wireless"),
@@ -241,117 +487,10 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
               margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.025,
                 bottom: MediaQuery.of(context).size.height * 0.025,
-                left: MediaQuery.of(context).size.width * screenMargins,
-                right: MediaQuery.of(context).size.width * screenMargins,
+                left: MediaQuery.of(context).size.width * screenMargin,
+                right: MediaQuery.of(context).size.width * screenMargin,
               ),
-              child: Row(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * screenSize,
-                    color: Color(0xE6D9D9D9),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.40,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: buildDragTarget(1),
-                                ),
-                              ),
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.1,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "Screen 1",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 32,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.05,
-                            alignment: Alignment.center,
-                            child: projectorOne == false ||
-                                    projectorOneSource == ""
-                                ? Icon(
-                                    Icons.volume_off,
-                                    size: 40,
-                                    color: Colors.redAccent,
-                                  )
-                                : Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            if (projectorOneVolume >= 10) {
-                                              projectorOneVolume -= 10;
-                                            }
-                                          });
-                                        },
-                                        child: Icon(
-                                          Icons.volume_down,
-                                          size: 40,
-                                        ),
-                                      ),
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                    screenSize -
-                                                80,
-                                        child: SliderTheme(
-                                          data: SliderThemeData(
-                                            trackHeight: 10,
-                                            // inactiveTrackColor: Colors.grey,
-                                            activeTrackColor:
-                                                Theme.of(context).primaryColor,
-                                            // TO BE CONT
-                                          ),
-                                          child: Slider(
-                                            value: projectorOneVolume,
-                                            min: 0,
-                                            max: 100,
-                                            divisions: 10,
-                                            label: projectorOneVolume
-                                                .round()
-                                                .toString(),
-                                            onChanged: (double value) {
-                                              setState(() {
-                                                projectorOneVolume = value;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            if (projectorOneVolume <= 90) {
-                                              projectorOneVolume += 10;
-                                            }
-                                          });
-                                        },
-                                        child: Icon(
-                                          Icons.volume_up,
-                                          size: 40,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              child: returnScreens(screenSize, screenMargin),
             )
           ],
         ),
@@ -432,7 +571,6 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                         return new Container(
                           height: MediaQuery.of(context).size.height * 0.40,
                           width: double.infinity,
-                          // color: Colors.red,
                           child: Row(
                             children: [
                               InkWell(
@@ -533,19 +671,19 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                       onTap: () => setState(() {
                         selectedLayout = 1;
                       }),
-                      child: layoutWidget(1, "assets/images/the_big_place.png"),
+                      child: layoutWidget(1, "assets/images/layout_one.png"),
                     ),
                     GestureDetector(
                       onTap: () => setState(() {
                         selectedLayout = 2;
                       }),
-                      child: layoutWidget(2, "assets/images/open_place.png"),
+                      child: layoutWidget(2, "assets/images/layout_two.png"),
                     ),
                     GestureDetector(
                       onTap: () => setState(() {
                         selectedLayout = 3;
                       }),
-                      child: layoutWidget(3, "assets/images/townhall.png"),
+                      child: layoutWidget(3, "assets/images/layout_three.png"),
                     ),
                   ],
                 ),
