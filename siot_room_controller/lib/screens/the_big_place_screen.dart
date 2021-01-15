@@ -88,7 +88,11 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
 
     return Container(
       width: MediaQuery.of(context).size.width * screenSize,
-      color: Color(0xE6D9D9D9),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Color(0xE6D9D9D9),
+      ),
+
       child: Center(
         child: Column(
           children: [
@@ -359,7 +363,7 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.1,
                   width: double.infinity,
-                  color: Color(0x80000000),
+                  color: Color(0x80007C89),
                   child: Center(
                     child: Text(
                       screenText,
@@ -456,67 +460,76 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
     }
     if (selectedLayout == 0) {
       return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.60,
+        height: MediaQuery.of(context).size.height * 0.61,
       );
     } else {
       return Container(
-        height: MediaQuery.of(context).size.height * 0.595,
-        margin: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.005,
-        ),
+        height: MediaQuery.of(context).size.height * 0.61,
+        // margin: EdgeInsets.only(
+        //   top: MediaQuery.of(context).size.height * 0.005,
+        // ),
         child: Column(
           children: [
-            Row(
-              children: [
-                Container(
-                  child: Draggable<String>(
-                    data: "HDMI 1",
-                    child: DraggableWidget(0x80000000, "HDMI 1"),
-                    feedback: DraggableWidget(0x80007C89, "HDMI 1"),
-                    childWhenDragging: DraggableWidget(0x80000000, "HDMI 1"),
+            Container(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.005,
+                bottom: MediaQuery.of(context).size.height * 0.005,
+              ),
+              color: Color(0x80D9D9D9),
+              child: Row(
+                children: [
+                  Container(
+                    child: Draggable<String>(
+                      data: "HDMI 1",
+                      child: DraggableWidget(0x80000000, "HDMI 1"),
+                      feedback: DraggableWidget(0x80007C89, "HDMI 1"),
+                      childWhenDragging: DraggableWidget(0x80000000, "HDMI 1"),
+                    ),
                   ),
-                ),
-                Container(
-                  child: Draggable<String>(
-                    data: "HDMI 2",
-                    child: DraggableWidget(0x80000000, "HDMI 2"),
-                    feedback: DraggableWidget(0x80007C89, "HDMI 2"),
-                    childWhenDragging: DraggableWidget(0x80000000, "HDMI 2"),
+                  Container(
+                    child: Draggable<String>(
+                      data: "HDMI 2",
+                      child: DraggableWidget(0x80000000, "HDMI 2"),
+                      feedback: DraggableWidget(0x80007C89, "HDMI 2"),
+                      childWhenDragging: DraggableWidget(0x80000000, "HDMI 2"),
+                    ),
                   ),
-                ),
-                Container(
-                  child: Draggable<String>(
-                    data: "HDMI 3",
-                    child: DraggableWidget(0x80000000, "HDMI 3"),
-                    feedback: DraggableWidget(0x80007C89, "HDMI 3"),
-                    childWhenDragging: DraggableWidget(0x80000000, "HDMI 3"),
+                  Container(
+                    child: Draggable<String>(
+                      data: "HDMI 3",
+                      child: DraggableWidget(0x80000000, "HDMI 3"),
+                      feedback: DraggableWidget(0x80007C89, "HDMI 3"),
+                      childWhenDragging: DraggableWidget(0x80000000, "HDMI 3"),
+                    ),
                   ),
-                ),
-                Container(
-                  child: Draggable<String>(
-                    data: "HDMI 4",
-                    child: DraggableWidget(0x80000000, "HDMI 4"),
-                    feedback: DraggableWidget(0x80007C89, "HDMI 4"),
-                    childWhenDragging: DraggableWidget(0x80000000, "HDMI 4"),
+                  Container(
+                    child: Draggable<String>(
+                      data: "HDMI 4",
+                      child: DraggableWidget(0x80000000, "HDMI 4"),
+                      feedback: DraggableWidget(0x80007C89, "HDMI 4"),
+                      childWhenDragging: DraggableWidget(0x80000000, "HDMI 4"),
+                    ),
                   ),
-                ),
-                Container(
-                  child: Draggable<String>(
-                    data: "TV Tuner",
-                    child: DraggableWidget(0x80000000, "TV Tuner"),
-                    feedback: DraggableWidget(0x80007C89, "TV Tuner"),
-                    childWhenDragging: DraggableWidget(0x80000000, "TV Tuner"),
+                  Container(
+                    child: Draggable<String>(
+                      data: "TV Tuner",
+                      child: DraggableWidget(0x80000000, "TV Tuner"),
+                      feedback: DraggableWidget(0x80007C89, "TV Tuner"),
+                      childWhenDragging:
+                          DraggableWidget(0x80000000, "TV Tuner"),
+                    ),
                   ),
-                ),
-                Container(
-                  child: Draggable<String>(
-                    data: "Wireless",
-                    child: DraggableWidget(0x80000000, "Wireless"),
-                    feedback: DraggableWidget(0x80007C89, "Wireless"),
-                    childWhenDragging: DraggableWidget(0x80000000, "Wireless"),
+                  Container(
+                    child: Draggable<String>(
+                      data: "Wireless",
+                      child: DraggableWidget(0x80000000, "Wireless"),
+                      feedback: DraggableWidget(0x80007C89, "Wireless"),
+                      childWhenDragging:
+                          DraggableWidget(0x80000000, "Wireless"),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.45,
@@ -552,10 +565,27 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
   }
 
   Widget layoutWidget(selectedLayoutNumber, imgPathStr) {
+    Color colour = Color(0xB3007C89);
+
+    // selectedLayout == selectedLayoutNumber
+    //     ? Color(0xB3007C89)
+    //     : Color(
+    //     (0xB3000000),
+
+    if (selectedLayout == selectedLayoutNumber) {
+      colour = Color(0x80007C89);
+    } else {
+      colour = Color(0x80000000);
+    }
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.3333,
       // color: Colors.yellow,
       decoration: BoxDecoration(
+        border: Border.all(
+          color: colour,
+          width: 10,
+        ),
         image: DecorationImage(
           fit: BoxFit.fill,
           image: AssetImage("$imgPathStr"),
@@ -567,9 +597,9 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
           height: MediaQuery.of(context).size.height * 0.06,
           width: double.infinity,
           color: selectedLayout == selectedLayoutNumber
-              ? Color(0xB3007C89)
+              ? Color(0x80007C89)
               : Color(
-                  (0xB3000000),
+                  (0x80000000),
                 ),
           child: Center(
             child: Text(
@@ -710,41 +740,50 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                 height: MediaQuery.of(context).size.height * 0.15,
                 child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: () => setState(() {
-                        selectedLayout = 1;
-                        if (projectorOneSource == "off") {
-                          projectorOneSource = "";
-                        }
-                      }),
-                      child: layoutWidget(1, "assets/images/layout_one.png"),
+                    Container(
+                      color: Color(0x4D000000),
+                      child: GestureDetector(
+                        onTap: () => setState(() {
+                          selectedLayout = 1;
+                          if (projectorOneSource == "off") {
+                            projectorOneSource = "";
+                          }
+                        }),
+                        child: layoutWidget(1, "assets/images/projector_1.png"),
+                      ),
                     ),
-                    GestureDetector(
-                      onTap: () => setState(() {
-                        selectedLayout = 2;
-                        if (projectorOneSource == "off") {
-                          projectorOneSource = "";
-                        }
-                        if (projectorTwoSource == "off") {
-                          projectorTwoSource = "";
-                        }
-                      }),
-                      child: layoutWidget(2, "assets/images/layout_two.png"),
+                    Container(
+                      color: Color(0x4D000000),
+                      child: GestureDetector(
+                        onTap: () => setState(() {
+                          selectedLayout = 2;
+                          if (projectorOneSource == "off") {
+                            projectorOneSource = "";
+                          }
+                          if (projectorTwoSource == "off") {
+                            projectorTwoSource = "";
+                          }
+                        }),
+                        child: layoutWidget(2, "assets/images/projector_2.png"),
+                      ),
                     ),
-                    GestureDetector(
-                      onTap: () => setState(() {
-                        selectedLayout = 3;
-                        if (projectorOneSource == "off") {
-                          projectorOneSource = "";
-                        }
-                        if (projectorTwoSource == "off") {
-                          projectorTwoSource = "";
-                        }
-                        if (projectorThreeSource == "off") {
-                          projectorThreeSource = "";
-                        }
-                      }),
-                      child: layoutWidget(3, "assets/images/layout_three.png"),
+                    Container(
+                      color: Color(0x4D000000),
+                      child: GestureDetector(
+                        onTap: () => setState(() {
+                          selectedLayout = 3;
+                          if (projectorOneSource == "off") {
+                            projectorOneSource = "";
+                          }
+                          if (projectorTwoSource == "off") {
+                            projectorTwoSource = "";
+                          }
+                          if (projectorThreeSource == "off") {
+                            projectorThreeSource = "";
+                          }
+                        }),
+                        child: layoutWidget(3, "assets/images/projector_3.png"),
+                      ),
                     ),
                   ],
                 ),

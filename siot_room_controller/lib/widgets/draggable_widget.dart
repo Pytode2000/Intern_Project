@@ -50,7 +50,8 @@ class DraggableWidget extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(20.0),
                     bottomLeft: Radius.circular(20.0),
-                  )),
+                  ),
+              ),
               child: Center(
                 child: Text(
                   "$content",
