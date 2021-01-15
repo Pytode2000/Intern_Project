@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/draggable_widget.dart';
 import 'package:blinking_text/blinking_text.dart';
+import 'home_screen.dart';
 
 class TheBigPlaceScreen extends StatefulWidget {
   static const routeName = "/the-big-place";
@@ -27,6 +28,41 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
   String screenOneText = "";
   String screenTwoText = "";
   String screenThreeText = "";
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      // barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('ALERT'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                // Text('Alert'),
+                Text('Are you sure you want to exit The Big Place?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('No'),
+              onPressed: () {
+                // Navigator.of(context).pushNamed("/");
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pushNamed(HomeScreen.routeName);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void refresh() {
     setState(() {});
@@ -409,8 +445,8 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
     double screenSize;
     double screenMargin;
     if (selectedLayout == 1) {
-      screenSize = 0.70;
-      screenMargin = 0.15;
+      screenSize = 0.50;
+      screenMargin = 0.25;
     } else if (selectedLayout == 2) {
       screenSize = 0.425;
       screenMargin = 0.05;
@@ -558,6 +594,13 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
           "The Big Place",
           style: TextStyle(fontWeight: FontWeight.w900, fontSize: 24),
         ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () => _showMyDialog(),
+        ),
         actions: [
           // Settings
           IconButton(
@@ -670,22 +713,19 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                     GestureDetector(
                       onTap: () => setState(() {
                         selectedLayout = 1;
-                        if(projectorOneSource == "off")
-                          {
-                            projectorOneSource = "";
-                          }
+                        if (projectorOneSource == "off") {
+                          projectorOneSource = "";
+                        }
                       }),
                       child: layoutWidget(1, "assets/images/layout_one.png"),
                     ),
                     GestureDetector(
                       onTap: () => setState(() {
                         selectedLayout = 2;
-                        if(projectorOneSource == "off")
-                        {
+                        if (projectorOneSource == "off") {
                           projectorOneSource = "";
                         }
-                        if(projectorTwoSource == "off")
-                        {
+                        if (projectorTwoSource == "off") {
                           projectorTwoSource = "";
                         }
                       }),
@@ -694,16 +734,13 @@ class _TheBigPlaceScreenState extends State<TheBigPlaceScreen> {
                     GestureDetector(
                       onTap: () => setState(() {
                         selectedLayout = 3;
-                        if(projectorOneSource == "off")
-                        {
+                        if (projectorOneSource == "off") {
                           projectorOneSource = "";
                         }
-                        if(projectorTwoSource == "off")
-                        {
+                        if (projectorTwoSource == "off") {
                           projectorTwoSource = "";
                         }
-                        if(projectorThreeSource == "off")
-                        {
+                        if (projectorThreeSource == "off") {
                           projectorThreeSource = "";
                         }
                       }),
