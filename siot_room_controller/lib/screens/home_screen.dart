@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                   HomeRoom("assets/images/open_place.png", "Open Place",
                       "/the-big-place"),
                   HomeRoom("assets/images/townhall.png", "Townhall",
-                      "/the-big-place"),
+                      "/townhall"),
                 ],
               ),
             ),

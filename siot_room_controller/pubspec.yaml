@@ -22,6 +22,7 @@ environment:
 
 dependencies:
   blinking_text: ^0.0.4+1
+  numeric_keyboard: ^1.0.0
   flutter:
     sdk: flutter
 
