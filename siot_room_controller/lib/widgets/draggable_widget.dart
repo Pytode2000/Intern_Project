@@ -8,12 +8,16 @@ class DraggableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String imagePath;
+    int bgColour;
     if (content == "TV Tuner") {
       imagePath = "assets/images/tv_tuner.png";
+      bgColour = 0x80FBD2D7;
     } else if (content == "Wireless") {
       imagePath = "assets/images/wireless.png";
+      bgColour = 0x4DF6CD8B;
     } else {
       imagePath = "assets/images/laptop.png";
+      bgColour = 0x4D4B8B3B;
     }
     return Material(
       color: Colors.transparent,
@@ -27,7 +31,7 @@ class DraggableWidget extends StatelessWidget {
         // color: Colors.blue,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
-          color: Colors.white,
+          color: Color(bgColour),
         ),
         child: Stack(children: [
           Container(
