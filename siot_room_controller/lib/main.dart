@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:siot_room_controller/screens/townhall.dart';
 
+import 'screens/open_place.dart';
+import 'screens/townhall.dart';
 import 'screens/splash_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/the_big_place_screen.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (ctx) => HomeScreen(),
         TheBigPlaceScreen.routeName: (ctx) => TheBigPlaceScreen(),
         Townhall.routeName: (ctx) => Townhall(),
+        OpenPlace.routeName: (ctx) => OpenPlace(),
       },
     );
   }

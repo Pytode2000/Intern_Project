@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'package:blinking_text/blinking_text.dart';
+import 'home_screen.dart';
 
 class Townhall extends StatefulWidget {
   static const routeName = "/townhall";
@@ -25,19 +26,45 @@ class _TownhallState extends State<Townhall> {
             return StatefulBuilder(builder: (context, setState) {
               return AlertDialog(
                 // title: Center(child: Text('')),
+                contentPadding: EdgeInsets.all(0.0),
                 content: Container(
                   // width: MediaQuery.of(context).size.width * 0.3,
-                  // height: MediaQuery.of(context).size.height * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.6,
                   child: Column(
                     children: [
+                      Container(
+                        color: Color(0xff007C89),
+                        height: 50,
+                        alignment: Alignment.centerLeft,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(HomeScreen.routeName);
+                          },
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                      ),
                       Container(
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width * 0.3,
                         height: MediaQuery.of(context).size.height * 0.1,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 5),
+                          border: Border(
+                            bottom:
+                                BorderSide(width: 1, color: Colors.blueGrey),
+                          ),
                         ),
-                        child: Text(password),
+                        child: Text(
+                          password,
+                          style: TextStyle(
+                            fontSize: 24,
+                            letterSpacing: 5,
+                          ),
+                        ),
                       ),
                       Container(
                         child: NumericKeyboard(
